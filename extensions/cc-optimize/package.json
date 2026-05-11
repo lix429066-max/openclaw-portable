@@ -1,0 +1,16 @@
+{
+  "name": "@local/cc-optimize",
+  "version": "1.0.0",
+  "description": "Claude Code-inspired optimization plugin for OpenClaw — structured tools, smart compaction, error classification, parallel hooks, content-addressable temp files",
+  "type": "module",
+  "main": "index.ts",
+  "license": "MIT",
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "peerDependencies": {
+    "openclaw": "*"
+  }
+}

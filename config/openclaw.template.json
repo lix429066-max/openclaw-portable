@@ -1,0 +1,331 @@
+﻿{
+    "meta":  {
+                 "lastTouchedVersion":  "2026.3.28",
+                 "lastTouchedAt":  "2026-05-11T10:30:00.000Z"
+             },
+    "env":  {
+                "vars":  {
+                             "SEARXNG_URL":  "",
+                             "SEARXNG_DEFAULT_ENGINES":  ""
+                         }
+            },
+    "wizard":  {
+                   "lastRunAt":  "2026-05-11T06:30:00.000Z",
+                   "lastRunVersion":  "2026.3.28",
+                   "lastRunCommand":  "doctor",
+                   "lastRunMode":  "local"
+               },
+    "auth":  {
+                 "profiles":  {
+                                  "deepseek:default":  {
+                                                           "provider":  "deepseek",
+                                                           "note":  "配置方法: 运行 openclaw /connect 或手动设置 DEEPSEEK_API_KEY 环境变量",
+                                                           "mode":  "api_key"
+                                                       }
+                              }
+             },
+    "models":  {
+                   "mode":  "merge",
+                   "providers":  {
+                                     "llama-qwen35b":  {
+                                                           "baseUrl":  "http://localhost:8080/v1",
+                                                           "apiKey":  "sk-no-key-required",
+                                                           "api":  "openai-completions",
+                                                           "models":  [
+                                                                          {
+                                                                              "id":  "Qwen3.6-35B-A3B-APEX-I-Mini",
+                                                                              "name":  "Qwen3.6-35B-A3B-APEX-I-Mini (本地)",
+                                                                              "reasoning":  false,
+                                                                              "input":  "text",
+                                                                              "cost":  "@{input=0; output=0; cacheRead=0; cacheWrite=0}",
+                                                                              "contextWindow":  72000,
+                                                                              "maxTokens":  65536,
+                                                                              "compat":  "@{supportsUsageInStreaming=True}"
+                                                                          }
+                                                                      ]
+                                                       },
+                                     "deepseek":  {
+                                                      "baseUrl":  "https://api.deepseek.com",
+                                                      "api":  "openai-completions",
+                                                      "models":  [
+                                                                     {
+                                                                         "id":  "deepseek-v4-pro",
+                                                                         "name":  "DeepSeek V4 Pro",
+                                                                         "api":  "openai-completions",
+                                                                         "reasoning":  false,
+                                                                         "input":  "text",
+                                                                         "cost":  "@{input=0.55; output=2.19; cacheRead=0.14; cacheWrite=0.55}",
+                                                                         "contextWindow":  131072,
+                                                                         "maxTokens":  65536,
+                                                                         "compat":  "@{supportsUsageInStreaming=True}"
+                                                                     },
+                                                                     {
+                                                                         "id":  "deepseek-chat",
+                                                                         "name":  "DeepSeek Chat",
+                                                                         "api":  "openai-completions",
+                                                                         "reasoning":  false,
+                                                                         "input":  "text",
+                                                                         "cost":  "@{input=0.27; output=1.10; cacheRead=0.07; cacheWrite=0.27}",
+                                                                         "contextWindow":  131072,
+                                                                         "maxTokens":  65536,
+                                                                         "compat":  "@{supportsUsageInStreaming=True}"
+                                                                     },
+                                                                     {
+                                                                         "id":  "deepseek-reasoner",
+                                                                         "name":  "DeepSeek Reasoner",
+                                                                         "api":  "openai-completions",
+                                                                         "reasoning":  true,
+                                                                         "input":  "text",
+                                                                         "cost":  "@{input=0.55; output=2.19; cacheRead=0.14; cacheWrite=0.55}",
+                                                                         "contextWindow":  131072,
+                                                                         "maxTokens":  65536,
+                                                                         "compat":  "@{supportsUsageInStreaming=True}"
+                                                                     }
+                                                                 ]
+                                                  }
+                                 }
+               },
+    "agents":  {
+                   "defaults":  {
+                                    "model":  {
+                                                  "primary":  "deepseek/deepseek-v4-pro",
+                                                  "fallbacks":  [
+                                                                    "deepseek/deepseek-chat",
+                                                                    "deepseek/deepseek-reasoner",
+                                                                    "llama-qwen35b/Qwen3.6-35B-A3B-APEX-I-Mini"
+                                                                ]
+                                              },
+                                    "models":  {
+                                                   "llama-qwen35b/Qwen3.6-35B-A3B-APEX-I-Mini":  {
+                                                                                                     "alias":  "Qwen3.6-35B-A3B-APEX-I-Mini (本地)"
+                                                                                                 },
+                                                   "deepseek/deepseek-chat":  {
+                                                                                  "alias":  "DeepSeek Chat"
+                                                                              },
+                                                   "deepseek/deepseek-reasoner":  {
+                                                                                      "alias":  "DeepSeek Reasoner (reasoning)"
+                                                                                  },
+                                                   "deepseek/deepseek-v4-pro":  {
+                                                                                    "alias":  "DeepSeek V4 Pro"
+                                                                                }
+                                               },
+                                    "workspace":  "C:\\Users\\yanping\\.openclaw\\workspace",
+                                    "memorySearch":  {
+                                                         "enabled":  true,
+                                                         "sources":  [
+                                                                         "memory",
+                                                                         "sessions"
+                                                                     ],
+                                                         "extraPaths":  [
+                                                                            "SOUL.md",
+                                                                            "AGENTS.md",
+                                                                            "CLAUDE.md",
+                                                                            "HEARTBEAT.md",
+                                                                            "PROJECTS.md",
+                                                                            "TOOLS.md",
+                                                                            "IDENTITY.md",
+                                                                            "USER.md",
+                                                                            "reference/",
+                                                                            "ARCHITECTURE.md"
+                                                                        ],
+                                                         "experimental":  {
+                                                                              "sessionMemory":  true
+                                                                          },
+                                                         "provider":  "local",
+                                                         "local":  {
+                                                                       "modelPath":  "D:\\Program Files\\model\\embeddinggemma-300m-qat-Q8_0.gguf"
+                                                                   },
+                                                         "chunking":  {
+                                                                          "tokens":  2048,
+                                                                          "overlap":  200
+                                                                      },
+                                                         "sync":  {
+                                                                      "onSessionStart":  true,
+                                                                      "onSearch":  true,
+                                                                      "watch":  true
+                                                                  }
+                                                     },
+                                    "compaction":  {
+                                                       "mode":  "safeguard",
+                                                       "memoryFlush":  {
+                                                                           "enabled":  true,
+                                                                           "softThresholdTokens":  50000
+                                                                       },
+                                                       "qualityGuard":  {
+                                                                            "enabled":  true,
+                                                                            "maxRetries":  2
+                                                                        },
+                                                       "recentTurnsPreserve":  4
+                                                   },
+                                    "sandbox":  {
+                                                    "mode":  "off"
+                                                },
+                                    "subagents":  {
+                                                      "maxConcurrent":  4,
+                                                      "maxSpawnDepth":  2,
+                                                      "runTimeoutSeconds":  300
+                                                  },
+                                    "timeoutSeconds":  300,
+                                    "contextPruning":  {
+                                                           "mode":  "cache-ttl",
+                                                           "ttl":  "30m",
+                                                           "keepLastAssistants":  5,
+                                                           "softTrimRatio":  0.3,
+                                                           "hardClearRatio":  0.7
+                                                       }
+                                }
+               },
+    "tools":  {
+                  "profile":  "full",
+                  "deny":  [
+                               "browser",
+                               "browser_navigate",
+                               "browser_screenshot",
+                               "browser_click",
+                               "browser_type"
+                           ],
+                  "web":  {
+                              "search":  {
+                                             "enabled":  false,
+                                             "provider":  "brave"
+                                         },
+                              "fetch":  {
+                                            "enabled":  true
+                                        }
+                          }
+              },
+    "messages":  {
+                     "ackReactionScope":  "all"
+                 },
+    "commands":  {
+                     "native":  "auto",
+                     "nativeSkills":  "auto",
+                     "restart":  true,
+                     "ownerDisplay":  "raw"
+                 },
+    "session":  {
+                    "dmScope":  "per-channel-peer",
+                    "maintenance":  {
+                                        "mode":  "enforce",
+                                        "maxEntries":  500,
+                                        "pruneAfter":  "7d",
+                                        "rotateBytes":  "50mb"
+                                    },
+                    "threadBindings":  {
+                                           "enabled":  true,
+                                           "idleHours":  24,
+                                           "maxAgeHours":  168
+                                       },
+                    "agentToAgent":  {
+                                         "maxPingPongTurns":  3
+                                     }
+                },
+    "hooks":  {
+                  "internal":  {
+                                   "enabled":  true,
+                                   "entries":  {
+                                                   "boot-md":  {
+                                                                   "enabled":  true
+                                                               },
+                                                   "bootstrap-extra-files":  {
+                                                                                 "enabled":  true
+                                                                             },
+                                                   "command-logger":  {
+                                                                          "enabled":  true
+                                                                      },
+                                                   "session-memory":  {
+                                                                          "enabled":  true
+                                                                      }
+                                               }
+                               }
+              },
+    "channels":  null,
+    "gateway":  {
+                    "port":  18789,
+                    "mode":  "local",
+                    "bind":  "loopback",
+                    "auth":  {
+                                 "mode":  "token",
+                                 "token":  "YOUR_GATEWAY_TOKEN_HERE"
+                             },
+                    "trustedProxies":  [
+
+                                       ],
+                    "tailscale":  {
+                                      "mode":  "off",
+                                      "resetOnExit":  false
+                                  },
+                    "nodes":  {
+                                  "denyCommands":  [
+                                                       "canvas.snapshot",
+                                                       "canvas.present"
+                                                   ]
+                              }
+                },
+    "skills":  {
+
+               },
+    "plugins":  {
+                    "allow":  [
+                                  "qqbot",
+                                  "lossless-claw",
+                                  "cc-optimize"
+                              ],
+                    "slots":  {
+                                  "contextEngine":  "lossless-claw"
+                              },
+                    "entries":  {
+                                    "qqbot":  {
+                                                  "note":  "QQ Bot 插件默认禁用, 如需启用请参考 openclaw docs",
+                                                  "enabled":  false
+                                              },
+                                    "lossless-claw":  {
+                                                          "enabled":  true,
+                                                          "config":  {
+                                                                         "freshTailCount":  8,
+                                                                         "contextThreshold":  0.6,
+                                                                         "incrementalMaxDepth":  2,
+                                                                         "leafMinFanout":  4,
+                                                                         "condensedMinFanout":  2,
+                                                                         "collapseThreshold":  0.85
+                                                                     }
+                                                      },
+                                    "cc-optimize":  {
+                                                        "enabled":  true,
+                                                        "config":  {
+                                                                       "autocompactThreshold":  0.6,
+                                                                       "microCompactThreshold":  0.45,
+                                                                       "reactiveCompactEnabled":  true,
+                                                                       "errorFallbackChain":  true,
+                                                                       "parallelHooks":  true,
+                                                                       "contentAddressedTempFiles":  true,
+                                                                       "structuredTools":  true,
+                                                                       "budgetTracking":  true,
+                                                                       "contextInjection":  true,
+                                                                       "sessionOptimization":  true,
+                                                                       "toolPartitioning":  true,
+                                                                       "permissionMatrix":  true,
+                                                                       "taskManager":  true,
+                                                                       "shellSafety":  true,
+                                                                       "gitStateReader":  true,
+                                                                       "memoryTemplates":  true,
+                                                                       "promptEnhancer":  true,
+                                                                       "modelResolver":  true,
+                                                                       "commandRegistry":  true,
+                                                                       "healthMonitor":  true,
+                                                                       "sessionRecovery":  true,
+                                                                       "autoMemoryExtractor":  true,
+                                                                       "speculationEngine":  true,
+                                                                       "gitContextInjection":  true,
+                                                                       "permissionFeedback":  true,
+                                                                       "stallDetector":  true,
+                                                                       "freshTailCount":  8,
+                                                                       "collapseThreshold":  0.9,
+                                                                       "maxFallbackModels":  3,
+                                                                       "tokenBudgetSafetyMargin":  0.05,
+                                                                       "maxBudgetTokens":  200000
+                                                                   }
+                                                    }
+                                }
+                }
+}

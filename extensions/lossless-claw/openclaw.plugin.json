@@ -1,0 +1,132 @@
+{
+  "id": "lossless-claw",
+  "uiHints": {
+    "contextThreshold": {
+      "label": "Context Threshold",
+      "help": "Fraction of context window that triggers compaction (0.0–1.0)"
+    },
+    "collapseThreshold": {
+      "label": "Collapse Threshold",
+      "help": "Emergency collapse threshold (0.0–1.0). Above this, compaction uses aggressive mode."
+    },
+    "incrementalMaxDepth": {
+      "label": "Incremental Max Depth",
+      "help": "How deep incremental compaction goes (0 = leaf only, -1 = unlimited)"
+    },
+    "freshTailCount": {
+      "label": "Fresh Tail Count",
+      "help": "Number of recent messages protected from compaction"
+    },
+    "leafMinFanout": {
+      "label": "Leaf Min Fanout",
+      "help": "Minimum depth-0 summaries needed before condensation (default: 8)"
+    },
+    "condensedMinFanout": {
+      "label": "Condensed Min Fanout",
+      "help": "Minimum depth>=1 summaries needed for condensation (default: 4)"
+    },
+    "leafTargetTokens": {
+      "label": "Leaf Target Tokens",
+      "help": "Target token count for leaf (first-level) summaries"
+    },
+    "condensedTargetTokens": {
+      "label": "Condensed Target Tokens",
+      "help": "Target token count for condensed (merged) summaries"
+    },
+    "dbPath": {
+      "label": "Database Path",
+      "help": "Path to LCM SQLite database (default: ~/.openclaw/lcm.db)"
+    },
+    "summaryModel": {
+      "label": "Summary Model",
+      "help": "Model override for LCM summarization (e.g., 'gpt-5.4' or 'openai-resp/gpt-5.4')"
+    },
+    "summaryProvider": {
+      "label": "Summary Provider",
+      "help": "Provider override for LCM summarization (e.g., 'openai-resp')"
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": {
+        "type": "boolean"
+      },
+      "contextThreshold": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "collapseThreshold": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "incrementalMaxDepth": {
+        "type": "integer",
+        "minimum": -1
+      },
+      "freshTailCount": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "leafMinFanout": {
+        "type": "integer",
+        "minimum": 2
+      },
+      "condensedMinFanout": {
+        "type": "integer",
+        "minimum": 2
+      },
+      "condensedMinFanoutHard": {
+        "type": "integer",
+        "minimum": 2
+      },
+      "dbPath": {
+        "type": "string"
+      },
+      "largeFileThresholdTokens": {
+        "type": "integer",
+        "minimum": 1000
+      },
+      "summaryModel": {
+        "type": "string"
+      },
+      "summaryProvider": {
+        "type": "string"
+      },
+      "leafTargetTokens": {
+        "type": "integer",
+        "minimum": 100
+      },
+      "condensedTargetTokens": {
+        "type": "integer",
+        "minimum": 100
+      },
+      "leafChunkTokens": {
+        "type": "integer",
+        "minimum": 1000
+      },
+      "maxExpandTokens": {
+        "type": "integer",
+        "minimum": 100
+      },
+      "autocompactDisabled": {
+        "type": "boolean"
+      },
+      "pruneHeartbeatOk": {
+        "type": "boolean"
+      },
+      "largeFileSummaryModel": {
+        "type": "string"
+      },
+      "largeFileSummaryProvider": {
+        "type": "string"
+      },
+      "timezone": {
+        "type": "string"
+      }
+    }
+  }
+}

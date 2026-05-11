@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.env
+auth.json
+gateway.cmd
+openclaw.json
+lcm.db
+openclaw.db
+.compact-state/
+.subagent-log/
+memory/202*
+backup/

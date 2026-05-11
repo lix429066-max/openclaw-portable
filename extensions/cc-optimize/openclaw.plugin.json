@@ -1,0 +1,222 @@
+{
+  "id": "cc-optimize",
+  "uiHints": {
+    "autocompactThreshold": {
+      "label": "Auto-compact Threshold",
+      "help": "Fraction of context window that triggers auto-compaction (0.0–1.0)"
+    },
+    "microCompactThreshold": {
+      "label": "Micro-compact Threshold",
+      "help": "Fraction of context window that triggers micro-compaction (0.0–1.0)"
+    },
+    "reactiveCompactEnabled": {
+      "label": "Reactive Compaction",
+      "help": "Enable reactive compaction that monitors response tokens in real-time"
+    },
+    "errorFallbackChain": {
+      "label": "Error Fallback Chain",
+      "help": "Enable multi-model fallback on errors (rate-limit, billing, overflow)"
+    },
+    "parallelHooks": {
+      "label": "Parallel Startup Hooks",
+      "help": "Run session startup hooks in parallel for faster initialization"
+    },
+    "contentAddressedTempFiles": {
+      "label": "Content-Addressed Temp Files",
+      "help": "Use content hashes for temp file paths to preserve prompt cache"
+    },
+    "structuredTools": {
+      "label": "Structured Tool Interface",
+      "help": "Add isEnabled/isReadOnly/isConcurrencySafe metadata to tool registry"
+    },
+    "budgetTracking": {
+      "label": "Budget Tracking",
+      "help": "Track token usage and enforce budget limits per session"
+    },
+    "contextInjection": {
+      "label": "Context Injection",
+      "help": "Auto-inject AGENTS.md/CLAUDE.md/SOUL.md context at session start"
+    },
+    "sessionOptimization": {
+      "label": "Session Optimization",
+      "help": "Session snapshotting, resume prompts, and idle detection"
+    },
+    "toolPartitioning": {
+      "label": "Tool Partitioning",
+      "help": "Partition tool calls into concurrency-safe vs serial batches"
+    },
+    "permissionMatrix": {
+      "label": "Permission Matrix",
+      "help": "5-level permission modes (default/acceptEdits/bypass/plan/dontAsk) with safety guards"
+    },
+    "taskManager": {
+      "label": "Task Manager",
+      "help": "Background task management with progress tracking, stall detection, and eviction"
+    },
+    "shellSafety": {
+      "label": "Shell Safety",
+      "help": "Fail-closed command safety scanning: dangerous patterns, constructs, redirects"
+    },
+    "gitStateReader": {
+      "label": "Git State Reader",
+      "help": "Read git state from filesystem (.git/ dir) without spawning git subprocess"
+    },
+    "memoryTemplates": {
+      "label": "Memory Templates",
+      "help": "Session memory template (10-section) + auto-memory extraction prompts (4-type taxonomy)"
+    },
+    "promptEnhancer": {
+      "label": "Prompt Enhancer",
+      "help": "CC-style static+dynamic prompt assembly with code style, tools, safety, and output rules"
+    },
+    "modelResolver": {
+      "label": "Model Resolver",
+      "help": "Model fallback chain resolution with priority ranking and context window detection"
+    },
+    "commandRegistry": {
+      "label": "Command Registry",
+      "help": "11 built-in commands (help, status, model, mode, compact, new, budget, tools, sessions, init, config)"
+    },
+    "healthMonitor": {
+      "label": "Health Monitor",
+      "help": "6-point health checks (gateway, model_auth, rate_limit, disk_space, memory, cron) every 60s"
+    },
+    "sessionRecovery": {
+      "label": "Session Recovery",
+      "help": "Crash-safe session pointer with crashed→recovered state machine and resume prompts"
+    },
+    "autoMemoryExtractor": {
+      "label": "Auto Memory Extractor",
+      "help": "4-type memory extraction (preference/knowledge/solution/context) every 10 messages"
+    },
+    "speculationEngine": {
+      "label": "Speculation Engine",
+      "help": "9 tool-use pattern predictors (read→grep, grep→edit, etc.) with accuracy tracking"
+    },
+    "gitContextInjection": {
+      "label": "Git Context Injection",
+      "help": "Auto-detect branch/SHA changes and inject git context at session start"
+    },
+    "permissionFeedback": {
+      "label": "Permission Feedback",
+      "help": "Track permission decisions (allow/deny/ask) with feedback history and suggestion generation"
+    },
+    "stallDetector": {
+      "label": "Stall Detector",
+      "help": "5s watchdog checks, 45s threshold before alert for stalled shell commands"
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": {
+        "type": "boolean"
+      },
+      "autocompactThreshold": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "microCompactThreshold": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "reactiveCompactEnabled": {
+        "type": "boolean"
+      },
+      "errorFallbackChain": {
+        "type": "boolean"
+      },
+      "parallelHooks": {
+        "type": "boolean"
+      },
+      "contentAddressedTempFiles": {
+        "type": "boolean"
+      },
+      "structuredTools": {
+        "type": "boolean"
+      },
+      "freshTailCount": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "collapseThreshold": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "maxFallbackModels": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "tokenBudgetSafetyMargin": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "maxBudgetTokens": {
+        "type": "integer",
+        "minimum": 10000
+      },
+      "budgetTracking": {
+        "type": "boolean"
+      },
+      "contextInjection": {
+        "type": "boolean"
+      },
+      "sessionOptimization": {
+        "type": "boolean"
+      },
+      "toolPartitioning": {
+        "type": "boolean"
+      },
+      "permissionMatrix": {
+        "type": "boolean"
+      },
+      "taskManager": {
+        "type": "boolean"
+      },
+      "shellSafety": {
+        "type": "boolean"
+      },
+      "gitStateReader": {
+        "type": "boolean"
+      },
+      "memoryTemplates": {
+        "type": "boolean"
+      },
+      "promptEnhancer": {
+        "type": "boolean"
+      },
+      "modelResolver": {
+        "type": "boolean"
+      },
+      "commandRegistry": {
+        "type": "boolean"
+      },
+      "healthMonitor": {
+        "type": "boolean"
+      },
+      "sessionRecovery": {
+        "type": "boolean"
+      },
+      "autoMemoryExtractor": {
+        "type": "boolean"
+      },
+      "speculationEngine": {
+        "type": "boolean"
+      },
+      "gitContextInjection": {
+        "type": "boolean"
+      },
+      "permissionFeedback": {
+        "type": "boolean"
+      },
+      "stallDetector": {
+        "type": "boolean"
+      }
+    }
+  }
+}
