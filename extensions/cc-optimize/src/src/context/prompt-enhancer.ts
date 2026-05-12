@@ -63,6 +63,18 @@ Workflow:
 3. Implement — small incremental changes, commit each
 4. Verify — run tests, check output, prove correctness
 5. Iterate — if tests fail, fix and retry
+
+Debugging (OpenCode beast.txt):
+- Determine root cause, not symptoms. Fix the source, not the manifestation.
+- Use logs, print statements, or temp tests to inspect state.
+- Revisit assumptions if unexpected behavior occurs.
+- Make changes only if you have HIGH confidence they solve the problem.
+
+Code Changes:
+- ALWAYS read file contents before editing. Never edit blind.
+- Check cache (use cache.get) before re-reading files.
+- Make small, testable, incremental changes. Commit after each.
+- If a project needs env vars, proactively create .env with placeholders.
 </system-reminder>`;
 
 export const CC_INSPIRED_TOOLS_GUIDANCE = `## Tool Usage (对标 CC toolOrchestration.ts + getUsingYourToolsSection)

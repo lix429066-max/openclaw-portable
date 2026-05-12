@@ -13,7 +13,7 @@ import { createTaskManager } from "./src/tasks/task-manager.js";
 import { createShellSafety } from "./src/shell/shell-safety.js";
 import { createGitStateReader } from "./src/git/git-state-reader.js";
 import { createMemoryTemplates } from "./src/memory/memory-templates.js";
-import { createPromptEnhancer } from "./src/context/prompt-enhancer.js";
+import { createPromptEnhancer, BEAST_MODE_REMINDER } from "./src/context/prompt-enhancer.js";
 import { createModelResolver } from "./src/budget/model-resolver.js";
 import { createCommandRegistry } from "./src/tools/command-registry.js";
 import { createHealthMonitor } from "./src/hooks/health-monitor.js";
@@ -35,6 +35,7 @@ import { registerDiffTool } from "./src/tools/diff-tool.js";
 import { registerLintTool } from "./src/tools/lint-tool.js";
 import { registerConfigTool } from "./src/tools/config-tool.js";
 import { registerQuestionTool } from "./src/tools/question-tool.js";
+import { registerModeTool } from "./src/tools/mode-tool.js";
 import { registerCommands } from "./src/tools/commands.js";
 import { registerCoreHooks } from "./src/hooks/core-hooks.js";
 
@@ -179,6 +180,7 @@ const ccOptimizePlugin = {
       activeTaskCount: 0,
       compactionCount: 0,
       errorCount: 0,
+      beastModeActive: false,  // 默认关闭，LLM 通过 permission-matrix setMode("beast") 激活
     };
 
     // Phase 1: Create all module instances (capture return values for cross-module wiring)
@@ -195,7 +197,9 @@ const ccOptimizePlugin = {
     const contextInjector = config.contextInjection ? createContextInjector(api, config) : null;
     const sessionOptimizer = config.sessionOptimization ? createSessionOptimizer(api, config) : null;
     const partitioner = config.toolPartitioning ? createToolPartitioner(api, config) : null;
-    const permissions = config.permissionMatrix ? createPermissionMatrix(api, config) : null;
+    const permissions = config.permissionMatrix ? createPermissionMatrix(api, config, (mode) => {
+      sharedState.beastModeActive = mode === "beast";
+    }) : null;
     const taskManager = config.taskManager ? createTaskManager(api, config) : null;
     const shellSafety = config.shellSafety ? createShellSafety(api, config, (cmd, reason) => {
       sharedState.dangerousCommands.push(`${cmd.slice(0, 60)} — ${reason}`);
@@ -225,7 +229,10 @@ const ccOptimizePlugin = {
     registerLintTool(api);
     registerConfigTool(api);
     registerQuestionTool(api);
-    api.logger.info("[cc-optimize] Tools registered: todo_write, session_note, cc_context, cc_doctor, cc_status, cache, cc_help, cc_diff, cc_lint, cc_config, cc_question");
+    registerModeTool(api, (mode) => {
+      sharedState.beastModeActive = mode === "beast";
+    });
+    api.logger.info("[cc-optimize] Tools registered: todo_write, session_note, cc_context, cc_doctor, cc_status, cache, cc_help, cc_diff, cc_lint, cc_config, cc_question, cc_mode");
 
     // Deep integration: register slash commands + core hooks
     registerCommands(api);
@@ -254,6 +261,41 @@ const ccOptimizePlugin = {
         return ctx;
       }, { name: "cc-optimize:context-inject-prompt" });
     }
+
+    // Capability discovery — inject at session start so LLM knows what it can do
+    api.registerHook("session_start", async (ctx) => {
+      const capabilityPrompt = [
+        "<system-reminder>",
+        "## Your Capabilities (cc-optimize enhanced)",
+        "",
+        "**12 tools**: todo_write, session_note, cache, cc_context, cc_doctor, cc_status, cc_config, cc_help, cc_question, cc_diff, cc_lint, cc_mode",
+        "**3 modes**: plan (read-only) → build (normal) → beast (full autonomy). Switch via cc_mode(mode).",
+        "**6 subtypes**: explore, general, code-review, research, verify, scout",
+        "**Safety**: shell-safety (18 patterns), Git Safety Protocol, write-discipline (auto-verify)",
+        "**Recovery**: L1→L3 error cascade, 4-level model fallback (v4-pro→chat→reasoner→local-qwen)",
+        "**Budget**: 200K token budget with real-time tracking. Use cc_context to check.",
+        "</system-reminder>",
+      ].join("\n");
+      return {
+        ...ctx,
+        metadata: {
+          ...ctx.metadata,
+          ccCapabilityPrompt: capabilityPrompt,
+        },
+      };
+    }, { name: "cc-optimize:capability-inject" });
+
+    // Beast mode injection (OpenCode beast.txt — full autonomy)
+    api.registerHook("before_prompt_build", async (ctx) => {
+      if (sharedState.beastModeActive) {
+        const systemPrompt = (ctx as { systemPrompt?: string }).systemPrompt ?? "";
+        return {
+          ...ctx,
+          systemPrompt: systemPrompt + "\n\n" + BEAST_MODE_REMINDER,
+        };
+      }
+      return ctx;
+    }, { name: "cc-optimize:beast-mode-inject" });
 
     // Phase 2: Wire cross-module dependencies (shared state + inter-module communication)
 

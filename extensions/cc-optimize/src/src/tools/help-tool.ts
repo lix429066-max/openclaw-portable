@@ -1,14 +1,11 @@
 import type { OpenClawPluginApi } from "openclaw/plugin-sdk";
 
 export function registerHelpTool(api: OpenClawPluginApi) {
-  api.registerTool((_ctx) => ({
+  api.registerTool({
     name: "cc_help",
     description: "List all available cc-optimize tools and their descriptions. Use this to discover what tools you have.",
-    inputSchema: {
-      type: "object",
-      properties: {},
-    },
-    async call() {
+    parameters: { type: "object" as const, properties: {} },
+    async execute() {
       return {
         tools: [
           {
@@ -104,5 +101,5 @@ export function registerHelpTool(api: OpenClawPluginApi) {
     isEnabled: () => true,
     isReadOnly: () => true,
     isConcurrencySafe: () => true,
-  }), { name: "cc-optimize:cc-help" });
+  }, { name: "cc-optimize:cc-help" });
 }

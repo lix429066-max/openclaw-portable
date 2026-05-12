@@ -29,6 +29,8 @@
 - 没有待处理的任务
 - 没有需要关注的错误
 
+**静默时段 (23:00-07:00)**: 深夜非严重问题直接 `HEARTBEAT_OK`，只有 critical（gateway 挂、cron 全停、API key 失效）才详细报告。逍遥在睡觉，别吵 🦞
+
 **示例**:
 ```
 HEARTBEAT_OK
